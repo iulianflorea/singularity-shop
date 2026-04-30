@@ -1,0 +1,13 @@
+<a class="product-card" [routerLink]="['/products', product.id]">
+  <div class="product-card__image">
+    <img [src]="product.imageUrl || 'assets/placeholder.jpg'" [alt]="product.name" loading="lazy">
+    <button class="product-card__add-btn btn-primary" (click)="addToCart($event)">
+      Adaugă în coș
+    </button>
+  </div>
+  <div class="product-card__info">
+    <span class="product-card__category">{{ product.category }}</span>
+    <h3 class="product-card__name">{{ product.name }}</h3>
+    <span class="product-card__price">{{ product.price | currency:'RON':'symbol':'1.2-2':'ro' }}</span>
+  </div>
+</a>

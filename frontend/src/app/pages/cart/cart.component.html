@@ -1,0 +1,70 @@
+<div class="container cart-page">
+  <h1 class="section-title">Coșul tău</h1>
+
+  @if (cart.items().length === 0) {
+    <app-empty-state
+      icon="🛒"
+      title="Coșul este gol"
+      message="Adaugă produse pentru a continua."
+      actionLabel="Explorează produsele"
+      actionLink="/products"
+    />
+  } @else {
+    <div class="cart-layout">
+      <div class="cart-items">
+        @for (item of cart.items(); track item.productId) {
+          <div class="cart-item">
+            <img class="item-img" [src]="item.imageUrl || 'assets/placeholder.jpg'" [alt]="item.productName">
+            <div class="item-details">
+              <a class="item-name" [routerLink]="['/products', item.productId]">{{ item.productName }}</a>
+              <span class="item-price">{{ item.unitPrice | currency:'RON':'symbol':'1.2-2':'ro' }}</span>
+            </div>
+            <div class="item-qty">
+              <button (click)="updateQty(item.productId, item.quantity - 1)" [disabled]="item.quantity <= 1">−</button>
+              <span>{{ item.quantity }}</span>
+              <button (click)="updateQty(item.productId, item.quantity + 1)">+</button>
+            </div>
+            <div class="item-total">
+              {{ (item.unitPrice * item.quantity) | currency:'RON':'symbol':'1.2-2':'ro' }}
+            </div>
+            <button class="remove-btn" (click)="remove(item.productId)" title="Elimină">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        }
+      </div>
+
+      <div class="cart-summary card">
+        <h3>Sumar comandă</h3>
+
+        @if (loading()) {
+          <div class="summary-loading">
+            <div class="skeleton" style="height:16px;width:100%"></div>
+            <div class="skeleton" style="height:16px;width:80%"></div>
+            <div class="skeleton" style="height:20px;width:60%"></div>
+          </div>
+        } @else if (summary(); as s) {
+          <div class="summary-rows">
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span>{{ s.subtotal | currency:'RON':'symbol':'1.2-2':'ro' }}</span>
+            </div>
+            <div class="summary-row">
+              <span>TVA (19%)</span>
+              <span>{{ s.tax | currency:'RON':'symbol':'1.2-2':'ro' }}</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total</span>
+              <span>{{ s.total | currency:'RON':'symbol':'1.2-2':'ro' }}</span>
+            </div>
+          </div>
+        }
+
+        <a routerLink="/checkout" class="btn-primary checkout-btn">Finalizează comanda</a>
+        <a routerLink="/products" class="btn-secondary continue-btn">Continuă cumpărăturile</a>
+      </div>
+    </div>
+  }
+</div>

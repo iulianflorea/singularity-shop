@@ -1,0 +1,39 @@
+@if (loading()) {
+  <div class="container detail-skeleton">
+    <div class="skeleton" style="aspect-ratio:1;border-radius:16px"></div>
+    <div style="display:flex;flex-direction:column;gap:16px;padding-top:16px">
+      <div class="skeleton" style="height:20px;width:30%"></div>
+      <div class="skeleton" style="height:40px;width:80%"></div>
+      <div class="skeleton" style="height:24px;width:25%"></div>
+    </div>
+  </div>
+} @else if (product(); as p) {
+  <div class="container detail-wrapper">
+    <div class="detail-image">
+      <img [src]="p.imageUrl || 'assets/placeholder.jpg'" [alt]="p.name">
+    </div>
+
+    <div class="detail-info">
+      <span class="detail-category">{{ p.category }}</span>
+      <h1 class="detail-name">{{ p.name }}</h1>
+      <p class="detail-price">{{ p.price | currency:'RON':'symbol':'1.2-2':'ro' }}</p>
+
+      @if (p.description) {
+        <p class="detail-description">{{ p.description }}</p>
+      }
+
+      <div class="detail-stock" [class.low]="p.stock < 5">
+        {{ p.stock > 0 ? (p.stock < 5 ? 'Ultimele ' + p.stock + ' bucăți!' : 'În stoc') : 'Stoc epuizat' }}
+      </div>
+
+      @if (p.stock > 0) {
+        <div class="quantity-row">
+          <button class="qty-btn" (click)="changeQuantity(-1)" [disabled]="quantity() <= 1">−</button>
+          <span class="qty-value">{{ quantity() }}</span>
+          <button class="qty-btn" (click)="changeQuantity(1)" [disabled]="quantity() >= p.stock">+</button>
+        </div>
+        <button class="btn-primary detail-add-btn" (click)="addToCart()">Adaugă în coș</button>
+      }
+    </div>
+  </div>
+}

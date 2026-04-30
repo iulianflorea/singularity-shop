@@ -1,0 +1,80 @@
+<div class="container checkout-page">
+  <h1 class="section-title">Finalizare comandă</h1>
+
+  <div class="checkout-layout">
+    <form class="checkout-form" [formGroup]="form" (ngSubmit)="submit()">
+      <section class="form-section">
+        <h2 class="form-section-title">Detalii livrare</h2>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nume complet</label>
+            <input class="input-field" formControlName="name" placeholder="Ion Popescu">
+            @if (field('name')?.invalid && field('name')?.touched) {
+              <span class="form-error">Câmp obligatoriu</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input class="input-field" type="email" formControlName="email" placeholder="ion@exemplu.ro">
+            @if (field('email')?.invalid && field('email')?.touched) {
+              <span class="form-error">Email invalid</span>
+            }
+          </div>
+
+          <div class="form-group full">
+            <label>Adresă</label>
+            <input class="input-field" formControlName="address" placeholder="Str. Exemplu nr. 1">
+            @if (field('address')?.invalid && field('address')?.touched) {
+              <span class="form-error">Câmp obligatoriu</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label>Oraș</label>
+            <input class="input-field" formControlName="city" placeholder="București">
+          </div>
+
+          <div class="form-group">
+            <label>Cod poștal</label>
+            <input class="input-field" formControlName="zip" placeholder="010101">
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h2 class="form-section-title">Date de plată</h2>
+        <div id="card-element" class="stripe-card-wrapper"></div>
+
+        @if (errorMsg()) {
+          <div class="payment-error">{{ errorMsg() }}</div>
+        }
+      </section>
+
+      <button type="submit" class="btn-primary submit-btn" [disabled]="processing()">
+        @if (processing()) {
+          <span class="spinner"></span> Se procesează...
+        } @else {
+          Plătește {{ cartTotal() | currency:'RON':'symbol':'1.2-2':'ro' }}
+        }
+      </button>
+    </form>
+
+    <div class="order-summary card">
+      <h3>Produse comandate</h3>
+      <div class="summary-items">
+        @for (item of cart.items(); track item.productId) {
+          <div class="summary-item">
+            <img [src]="item.imageUrl || 'assets/placeholder.jpg'" [alt]="item.productName">
+            <div class="summary-item-info">
+              <span>{{ item.productName }}</span>
+              <span class="qty-label">× {{ item.quantity }}</span>
+            </div>
+            <span class="summary-item-price">{{ (item.unitPrice * item.quantity) | currency:'RON':'symbol':'1.2-2':'ro' }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

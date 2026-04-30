@@ -1,0 +1,31 @@
+server:
+  port: ${SERVER_PORT:8091}
+
+spring:
+  config:
+    import: optional:dotenv:.env
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/singularity_shop}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+payment:
+  service:
+    url: ${PAYMENT_SERVICE_URL:https://pay.singularity-cloud.com}
+    api-key: ${PAYMENT_SERVICE_API_KEY}
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400000
+
+logging:
+  level:
+    com.singularity.shop: INFO

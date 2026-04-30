@@ -1,0 +1,42 @@
+<div class="container confirmation-page">
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="skeleton" style="height:80px;width:80px;border-radius:50%;margin:0 auto"></div>
+      <div class="skeleton" style="height:32px;width:300px;margin:0 auto"></div>
+    </div>
+  } @else if (order(); as o) {
+    <div class="confirmation-card">
+      <div class="success-icon">✓</div>
+      <h1>Comandă plasată cu succes!</h1>
+      <p class="confirmation-sub">Îți mulțumim pentru comandă. Vei primi un email de confirmare.</p>
+
+      <div class="order-details">
+        <div class="detail-row">
+          <span>Număr comandă</span>
+          <strong>#{{ o.id }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Status</span>
+          <span class="status-badge">{{ o.status }}</span>
+        </div>
+        <div class="detail-row">
+          <span>Total</span>
+          <strong>{{ o.totalAmount | currency:'RON':'symbol':'1.2-2':'ro' }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Data</span>
+          <span>{{ o.createdAt | date:'dd MMMM yyyy, HH:mm':'':'ro' }}</span>
+        </div>
+        <div class="detail-row">
+          <span>Adresă livrare</span>
+          <span>{{ o.shippingAddress }}</span>
+        </div>
+      </div>
+
+      <div class="confirmation-actions">
+        <a routerLink="/orders" class="btn-primary">Comenzile mele</a>
+        <a routerLink="/products" class="btn-secondary">Continuă cumpărăturile</a>
+      </div>
+    </div>
+  }
+</div>

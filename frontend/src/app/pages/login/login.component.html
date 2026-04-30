@@ -1,0 +1,32 @@
+<div class="auth-page">
+  <div class="auth-card card">
+    <h1 class="auth-title">Autentificare</h1>
+    <p class="auth-sub">Intră în contul tău Singularity</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-group">
+        <label>Email</label>
+        <input class="input-field" type="email" formControlName="email" placeholder="email@exemplu.ro">
+        @if (field('email')?.invalid && field('email')?.touched) {
+          <span class="form-error">Email invalid</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Parolă</label>
+        <input class="input-field" type="password" formControlName="password" placeholder="••••••••">
+        @if (field('password')?.invalid && field('password')?.touched) {
+          <span class="form-error">Câmp obligatoriu</span>
+        }
+      </div>
+
+      <button type="submit" class="btn-primary submit-btn" [disabled]="loading()">
+        @if (loading()) { Se încarcă... } @else { Autentifică-te }
+      </button>
+    </form>
+
+    <p class="auth-switch">
+      Nu ai cont? <a routerLink="/register">Înregistrează-te</a>
+    </p>
+  </div>
+</div>
