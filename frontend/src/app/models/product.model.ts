@@ -6,6 +6,8 @@ export interface Product {
   stock: number;
   category: string;
   imageUrl: string;
+  productCode: string;
+  purchasePrice: number | null;
   active: boolean;
   createdAt: string;
 }

@@ -19,6 +19,8 @@ public class ProductDto {
         @NotBlank
         private String category;
         private String imageUrl;
+        private String productCode;
+        private BigDecimal purchasePrice;
         @Builder.Default
         private Boolean active = true;
     }
@@ -33,6 +35,8 @@ public class ProductDto {
         private String category;
         private String imageUrl;
         private Boolean active;
+        private String productCode;
+        private BigDecimal purchasePrice;
         private LocalDateTime createdAt;
     }
 }

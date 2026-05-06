@@ -21,7 +21,9 @@ export interface Order {
 }
 
 export interface CreateOrderRequest {
-  customerId: number;
+  customerId?: number;
+  guestName?: string;
+  guestEmail?: string;
   items: { productId: number; quantity: number }[];
   shippingAddress: string;
 }

@@ -61,20 +61,18 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const customer = this.auth.currentCustomer();
-    if (!customer) return;
-
     this.processing.set(true);
     this.errorMsg.set('');
 
+    const customer = this.auth.currentCustomer();
     const shippingAddress = `${this.form.value.address}, ${this.form.value.city}, ${this.form.value.zip}`;
     const items = this.cart.items().map(i => ({ productId: i.productId, quantity: i.quantity }));
 
-    this.orderService.createOrder({
-      customerId: customer.id,
-      items,
-      shippingAddress
-    }).subscribe({
+    const orderRequest = customer
+      ? { customerId: customer.id, items, shippingAddress }
+      : { guestName: this.form.value.name!, guestEmail: this.form.value.email!, items, shippingAddress };
+
+    this.orderService.createOrder(orderRequest).subscribe({
       next: async orderResp => {
         try {
           const result = await this.stripeService.confirmPayment(orderResp.clientSecret);

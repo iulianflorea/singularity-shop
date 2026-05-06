@@ -14,10 +14,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartService {
 
-    private static final BigDecimal TAX_RATE = new BigDecimal("0.19");
     private static final String CURRENCY = "RON";
 
     private final ProductService productService;
+    private final SettingService settingService;
 
     public CartDto.CalculateResponse calculate(CartDto.CalculateRequest request) {
         List<CartDto.ItemDetail> itemDetails = request.getItems().stream().map(item -> {
@@ -41,16 +41,20 @@ public class CartService {
 
         BigDecimal subtotal = itemDetails.stream()
                 .map(CartDto.ItemDetail::getLineTotal)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(2, RoundingMode.HALF_UP);
 
-        BigDecimal tax = subtotal.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal total = subtotal.add(tax).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal tvaRate = settingService.getTvaRate();
+        // price already includes TVA — extract it: tax = total * rate / (100 + rate)
+        BigDecimal tax = subtotal.multiply(tvaRate)
+                .divide(BigDecimal.valueOf(100).add(tvaRate), 2, RoundingMode.HALF_UP);
 
         return CartDto.CalculateResponse.builder()
-                .subtotal(subtotal.setScale(2, RoundingMode.HALF_UP))
+                .subtotal(subtotal)
                 .tax(tax)
-                .total(total)
+                .total(subtotal)
                 .currency(CURRENCY)
+                .tvaRate(tvaRate.intValue())
                 .items(itemDetails)
                 .build();
     }

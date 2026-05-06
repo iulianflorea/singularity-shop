@@ -31,6 +31,12 @@ public class Product {
 
     private String imageUrl;
 
+    @Column(unique = true)
+    private String productCode;
+
+    @Column(precision = 10, scale = 2)
+    private BigDecimal purchasePrice;
+
     @Column(nullable = false)
     @Builder.Default
     private Boolean active = true;

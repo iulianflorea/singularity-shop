@@ -16,6 +16,7 @@ import { AdminService } from '../../../services/admin.service';
               <th>#</th>
               <th>Client</th>
               <th>Total</th>
+              <th>Net (după Stripe)</th>
               <th>Status</th>
               <th>Adresă livrare</th>
               <th>Data</th>
@@ -29,17 +30,21 @@ import { AdminService } from '../../../services/admin.service';
                   @if (o.guestName) {
                     <span>{{ o.guestName }}<br><small>{{ o.guestEmail }}</small></span>
                   } @else {
-                    <span>Client #{{ o.customerId }}</span>
+                    <span>{{ o.customerName || ('Client #' + o.customerId) }}<br><small>{{ o.customerEmail }}</small></span>
                   }
                 </td>
                 <td>{{ o.totalAmount | number:'1.2-2' }} {{ o.currency }}</td>
+                <td>
+                  <span class="net-amount">{{ netAmount(o.totalAmount) | number:'1.2-2' }} {{ o.currency }}</span>
+                  <br><small class="fee-detail">– {{ stripeFee(o.totalAmount) | number:'1.2-2' }} taxă</small>
+                </td>
                 <td><span [class]="'badge ' + o.status.toLowerCase()">{{ o.status }}</span></td>
                 <td>{{ o.shippingAddress }}</td>
                 <td>{{ o.createdAt | slice:0:10 }}</td>
               </tr>
             }
             @empty {
-              <tr><td colspan="6" style="text-align:center;color:var(--color-text-secondary);padding:2rem">Nicio comandă</td></tr>
+              <tr><td colspan="7" style="text-align:center;color:var(--color-text-secondary);padding:2rem">Nicio comandă</td></tr>
             }
           </tbody>
         </table>
@@ -49,9 +54,11 @@ import { AdminService } from '../../../services/admin.service';
   styles: [`
     .table-wrapper { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--color-border); font-size: 0.9rem; }
+    th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--color-border); font-size: 0.9rem; vertical-align: middle; }
     th { color: var(--color-text-secondary); font-weight: 600; }
     small { color: var(--color-text-secondary); font-size: 0.8rem; }
+    .net-amount { font-weight: 600; color: var(--color-primary); }
+    .fee-detail { color: #ef4444; font-size: 0.75rem; }
     .badge { padding: 0.25rem 0.6rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500; }
     .badge.pending { background: #fef9c3; color: #854d0e; }
     .badge.confirmed { background: #d1fae5; color: #065f46; }
@@ -63,4 +70,12 @@ export class AdminOrdersComponent implements OnInit {
   orders = signal<any[]>([]);
 
   ngOnInit() { this.adminService.getAllOrders().subscribe(o => this.orders.set(o)); }
+
+  stripeFee(amount: number): number {
+    return amount * 0.014 + 1.0;
+  }
+
+  netAmount(amount: number): number {
+    return amount - this.stripeFee(amount);
+  }
 }

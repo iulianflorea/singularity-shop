@@ -33,7 +33,9 @@ CREATE TABLE IF NOT EXISTS customers (
 
 CREATE TABLE IF NOT EXISTS orders (
     id                BIGINT AUTO_INCREMENT PRIMARY KEY,
-    customer_id       BIGINT NOT NULL,
+    customer_id       BIGINT NULL,
+    guest_email       VARCHAR(255),
+    guest_name        VARCHAR(255),
     status            VARCHAR(50) NOT NULL DEFAULT 'PENDING',
     total_amount      DECIMAL(10, 2) NOT NULL,
     currency          VARCHAR(10) NOT NULL DEFAULT 'RON',
@@ -52,4 +54,9 @@ CREATE TABLE IF NOT EXISTS order_items (
     quantity   INT NOT NULL,
     unit_price DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS settings (
+    setting_key VARCHAR(100) NOT NULL PRIMARY KEY,
+    value       VARCHAR(255) NOT NULL
 );

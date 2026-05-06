@@ -11,6 +11,7 @@ export interface CartCalculateResponse {
   tax: number;
   total: number;
   currency: string;
+  tvaRate: number;
   items: CartItemDetail[];
 }
 

@@ -37,6 +37,7 @@ public class CartDto {
         private BigDecimal tax;
         private BigDecimal total;
         private String currency;
+        private Integer tvaRate;
         private List<ItemDetail> items;
     }
 }

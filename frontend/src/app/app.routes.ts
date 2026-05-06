@@ -13,6 +13,8 @@ export const routes: Routes = [
       { path: 'products', loadComponent: () => import('./pages/admin/products/admin-products.component').then(m => m.AdminProductsComponent) },
       { path: 'discounts', loadComponent: () => import('./pages/admin/discounts/admin-discounts.component').then(m => m.AdminDiscountsComponent) },
       { path: 'orders', loadComponent: () => import('./pages/admin/orders/admin-orders.component').then(m => m.AdminOrdersComponent) },
+      { path: 'stock-orders', loadComponent: () => import('./pages/admin/stock-orders/admin-stock-orders.component').then(m => m.AdminStockOrdersComponent) },
+      { path: 'reports', loadComponent: () => import('./pages/admin/reports/admin-reports.component').then(m => m.AdminReportsComponent) },
     ]
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -35,12 +37,10 @@ export const routes: Routes = [
   {
     path: 'checkout',
     loadComponent: () => import('./pages/checkout/checkout.component').then(m => m.CheckoutComponent),
-    canActivate: [authGuard]
   },
   {
     path: 'order-confirmation/:id',
     loadComponent: () => import('./pages/order-confirmation/order-confirmation.component').then(m => m.OrderConfirmationComponent),
-    canActivate: [authGuard]
   },
   {
     path: 'orders',

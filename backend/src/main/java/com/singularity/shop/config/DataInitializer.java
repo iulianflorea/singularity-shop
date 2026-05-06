@@ -2,6 +2,7 @@ package com.singularity.shop.config;
 
 import com.singularity.shop.entity.Customer;
 import com.singularity.shop.repository.CustomerRepository;
+import com.singularity.shop.service.SettingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -14,6 +15,7 @@ public class DataInitializer implements ApplicationRunner {
 
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SettingService settingService;
 
     @Override
     public void run(ApplicationArguments args) {
@@ -25,5 +27,6 @@ public class DataInitializer implements ApplicationRunner {
                     .role("ADMIN")
                     .build());
         }
+        settingService.initDefaults();
     }
 }

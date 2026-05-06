@@ -52,7 +52,7 @@
               <span>{{ s.subtotal | currency:'RON':'symbol':'1.2-2':'ro' }}</span>
             </div>
             <div class="summary-row">
-              <span>TVA (19%)</span>
+              <span>TVA inclus ({{ s.tvaRate }}%)</span>
               <span>{{ s.tax | currency:'RON':'symbol':'1.2-2':'ro' }}</span>
             </div>
             <div class="summary-row total">

@@ -23,8 +23,6 @@ public class OrderService {
     private final ProductService productService;
     private final PaymentServiceClient paymentServiceClient;
 
-    private static final BigDecimal TAX_RATE = new BigDecimal("0.19");
-
     @Transactional
     public OrderDto.CreateResponse createOrder(OrderDto.CreateRequest request) {
         boolean isGuest = request.getCustomerId() == null;
@@ -54,8 +52,7 @@ public class OrderService {
                     .build());
         }
 
-        BigDecimal tax = subtotal.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal total = subtotal.add(tax).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal total = subtotal.setScale(2, RoundingMode.HALF_UP);
         order.setTotalAmount(total);
         order = orderRepository.save(order);
 
@@ -149,8 +146,19 @@ public class OrderService {
                     .build();
         }).toList();
 
+        String customerEmail = null;
+        String customerName = null;
+        if (o.getCustomerId() != null) {
+            var customer = customerRepository.findById(o.getCustomerId()).orElse(null);
+            if (customer != null) {
+                customerEmail = customer.getEmail();
+                customerName = customer.getName();
+            }
+        }
+
         return OrderDto.Response.builder()
                 .id(o.getId()).customerId(o.getCustomerId())
+                .customerEmail(customerEmail).customerName(customerName)
                 .guestEmail(o.getGuestEmail()).guestName(o.getGuestName())
                 .status(o.getStatus()).totalAmount(o.getTotalAmount())
                 .currency(o.getCurrency()).paymentIntentId(o.getPaymentIntentId())

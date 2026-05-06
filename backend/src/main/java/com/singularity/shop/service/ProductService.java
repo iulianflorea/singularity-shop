@@ -52,6 +52,8 @@ public class ProductService {
                 .stock(request.getStock())
                 .category(request.getCategory())
                 .imageUrl(request.getImageUrl())
+                .productCode(request.getProductCode())
+                .purchasePrice(request.getPurchasePrice())
                 .active(request.getActive())
                 .build();
         return toResponse(productRepository.save(product));
@@ -66,6 +68,8 @@ public class ProductService {
         product.setStock(request.getStock());
         product.setCategory(request.getCategory());
         product.setImageUrl(request.getImageUrl());
+        product.setProductCode(request.getProductCode());
+        product.setPurchasePrice(request.getPurchasePrice());
         product.setActive(request.getActive());
         return toResponse(productRepository.save(product));
     }
@@ -82,6 +86,8 @@ public class ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found: " + id));
     }
 
+    public ProductDto.Response toPublicResponse(Product p) { return toResponse(p); }
+
     private ProductDto.Response toResponse(Product p) {
         return ProductDto.Response.builder()
                 .id(p.getId())
@@ -91,6 +97,8 @@ public class ProductService {
                 .stock(p.getStock())
                 .category(p.getCategory())
                 .imageUrl(p.getImageUrl())
+                .productCode(p.getProductCode())
+                .purchasePrice(p.getPurchasePrice())
                 .active(p.getActive())
                 .createdAt(p.getCreatedAt())
                 .build();
