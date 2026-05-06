@@ -25,7 +25,7 @@ public class CartService {
             if (!product.getActive()) {
                 throw new BadRequestException("Product is not available: " + product.getName());
             }
-            if (product.getStock() < item.getQuantity()) {
+            if (!"SOFTWARE".equals(product.getProductType()) && product.getStock() < item.getQuantity()) {
                 throw new BadRequestException("Insufficient stock for: " + product.getName());
             }
             BigDecimal lineTotal = product.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));

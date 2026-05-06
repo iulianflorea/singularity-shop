@@ -22,13 +22,19 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size,
             @RequestParam(required = false) String search,
-            @RequestParam(required = false) String category) {
-        return ResponseEntity.ok(productService.getProducts(page, size, search, category));
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String type) {
+        return ResponseEntity.ok(productService.getProducts(page, size, search, category, type));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto.Response> getProduct(@PathVariable Long id) {
         return ResponseEntity.ok(productService.getProductById(id));
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<String>> getAvailableCategories(@RequestParam(required = false) String type) {
+        return ResponseEntity.ok(productService.getAvailableCategories(type));
     }
 
     @GetMapping("/category/{category}")

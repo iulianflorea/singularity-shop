@@ -3,7 +3,9 @@ package com.singularity.shop.controller;
 import com.singularity.shop.dto.OrderDto;
 import com.singularity.shop.dto.ProductDto;
 import com.singularity.shop.dto.ReportDto;
+import com.singularity.shop.entity.Category;
 import com.singularity.shop.repository.*;
+import com.singularity.shop.service.CategoryService;
 import com.singularity.shop.service.OrderService;
 import com.singularity.shop.service.ProductService;
 import com.singularity.shop.service.PurchaseOrderService;
@@ -36,6 +38,7 @@ public class AdminController {
     private final PurchaseOrderService purchaseOrderService;
     private final OrderItemRepository orderItemRepository;
     private final SettingService settingService;
+    private final CategoryService categoryService;
 
     @GetMapping("/stats")
     public ResponseEntity<StatsResponse> getStats() {
@@ -130,6 +133,31 @@ public class AdminController {
                 .soldProducts(soldProducts)
                 .purchaseOrders(purchaseOrders)
                 .build());
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<Category>> getCategories() {
+        return ResponseEntity.ok(categoryService.getAll());
+    }
+
+    @PostMapping("/categories")
+    public ResponseEntity<Category> createCategory(@RequestBody Map<String, Object> body) {
+        String name = (String) body.get("name");
+        Long parentId = body.get("parentId") != null ? ((Number) body.get("parentId")).longValue() : null;
+        return ResponseEntity.ok(categoryService.create(name, parentId));
+    }
+
+    @PutMapping("/categories/{id}")
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Map<String, Object> body) {
+        String name = (String) body.get("name");
+        Long parentId = body.get("parentId") != null ? ((Number) body.get("parentId")).longValue() : null;
+        return ResponseEntity.ok(categoryService.update(id, name, parentId));
+    }
+
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Getter @AllArgsConstructor

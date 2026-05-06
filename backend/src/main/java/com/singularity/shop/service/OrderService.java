@@ -133,15 +133,18 @@ public class OrderService {
     private OrderDto.Response toResponse(Order o) {
         List<OrderDto.ItemResponse> items = o.getItems().stream().map(item -> {
             String productName = null;
+            String productCode = null;
             String productImageUrl = null;
             try {
                 var product = productService.getProductEntity(item.getProductId());
                 productName = product.getName();
+                productCode = product.getProductCode();
                 productImageUrl = product.getImageUrl();
             } catch (Exception ignored) {}
             return OrderDto.ItemResponse.builder()
                     .id(item.getId()).productId(item.getProductId())
-                    .productName(productName).productImageUrl(productImageUrl)
+                    .productCode(productCode).productName(productName)
+                    .productImageUrl(productImageUrl)
                     .quantity(item.getQuantity()).unitPrice(item.getUnitPrice())
                     .build();
         }).toList();

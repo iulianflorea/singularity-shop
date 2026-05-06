@@ -18,22 +18,65 @@
       <h1 class="detail-name">{{ p.name }}</h1>
       <p class="detail-price">{{ p.price | currency:'RON':'symbol':'1.2-2':'ro' }}</p>
 
-      @if (p.description) {
-        <p class="detail-description">{{ p.description }}</p>
+      @if (p.productType === 'SOFTWARE') {
+        <div class="detail-stock">Licență digitală — disponibil imediat</div>
+      } @else {
+        <div class="detail-stock" [class.low]="p.stock < 5">
+          {{ p.stock > 0 ? (p.stock < 5 ? 'Ultimele ' + p.stock + ' bucăți!' : 'În stoc') : 'Stoc epuizat' }}
+        </div>
       }
 
-      <div class="detail-stock" [class.low]="p.stock < 5">
-        {{ p.stock > 0 ? (p.stock < 5 ? 'Ultimele ' + p.stock + ' bucăți!' : 'În stoc') : 'Stoc epuizat' }}
-      </div>
-
-      @if (p.stock > 0) {
+      @if (p.productType === 'SOFTWARE' || p.stock > 0) {
         <div class="quantity-row">
           <button class="qty-btn" (click)="changeQuantity(-1)" [disabled]="quantity() <= 1">−</button>
           <span class="qty-value">{{ quantity() }}</span>
-          <button class="qty-btn" (click)="changeQuantity(1)" [disabled]="quantity() >= p.stock">+</button>
+          <button class="qty-btn" (click)="changeQuantity(1)">+</button>
         </div>
         <button class="btn-primary detail-add-btn" (click)="addToCart()">Adaugă în coș</button>
       }
     </div>
   </div>
+
+  @if ((p.description || (p.descriptionImages && p.descriptionImages.length > 0)) || (p.specifications && p.specifications.length > 0)) {
+    <div class="container detail-tabs-section">
+      <div class="detail-tabs">
+        @if (p.description || (p.descriptionImages && p.descriptionImages.length > 0)) {
+          <button class="detail-tab-btn" [class.active]="activeTab() === 'description'" (click)="activeTab.set('description')">Descriere</button>
+        }
+        @if (p.specifications && p.specifications.length > 0) {
+          <button class="detail-tab-btn" [class.active]="activeTab() === 'specs'" (click)="activeTab.set('specs')">Specificații</button>
+        }
+      </div>
+
+      @if (activeTab() === 'description') {
+        <div class="detail-tab-content">
+          @if (p.description) {
+            <p class="detail-description">{{ p.description }}</p>
+          }
+          @if (p.descriptionImages && p.descriptionImages.length > 0) {
+            <div class="desc-image-gallery">
+              @for (img of p.descriptionImages; track img) {
+                <img [src]="img" [alt]="p.name" class="desc-gallery-img" />
+              }
+            </div>
+          }
+        </div>
+      }
+
+      @if (activeTab() === 'specs') {
+        <div class="detail-tab-content">
+          <table class="specs-table">
+            <tbody>
+              @for (spec of p.specifications; track spec.id) {
+                <tr>
+                  <td class="spec-name">{{ spec.name }}</td>
+                  <td class="spec-value">{{ spec.value }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  }
 }

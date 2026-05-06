@@ -37,6 +37,14 @@
           </div>
 
           <div class="form-group">
+            <label>Județ</label>
+            <input class="input-field" formControlName="county" placeholder="Ilfov">
+            @if (field('county')?.invalid && field('county')?.touched) {
+              <span class="form-error">Câmp obligatoriu</span>
+            }
+          </div>
+
+          <div class="form-group">
             <label>Cod poștal</label>
             <input class="input-field" formControlName="zip" placeholder="010101">
           </div>

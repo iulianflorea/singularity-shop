@@ -17,4 +17,7 @@ public class Category {
 
     @Column(nullable = false, unique = true)
     private String slug;
+
+    @Column(name = "parent_id")
+    private Long parentId;
 }

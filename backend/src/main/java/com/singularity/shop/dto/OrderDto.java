@@ -42,6 +42,7 @@ public class OrderDto {
     public static class ItemResponse {
         private Long id;
         private Long productId;
+        private String productCode;
         private String productName;
         private String productImageUrl;
         private Integer quantity;

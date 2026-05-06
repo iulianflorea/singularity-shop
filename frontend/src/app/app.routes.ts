@@ -15,6 +15,7 @@ export const routes: Routes = [
       { path: 'orders', loadComponent: () => import('./pages/admin/orders/admin-orders.component').then(m => m.AdminOrdersComponent) },
       { path: 'stock-orders', loadComponent: () => import('./pages/admin/stock-orders/admin-stock-orders.component').then(m => m.AdminStockOrdersComponent) },
       { path: 'reports', loadComponent: () => import('./pages/admin/reports/admin-reports.component').then(m => m.AdminReportsComponent) },
+      { path: 'categories', loadComponent: () => import('./pages/admin/categories/admin-categories.component').then(m => m.AdminCategoriesComponent) },
     ]
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' },

@@ -6,6 +6,7 @@ import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
 import { Product } from '../../models/product.model';
 
+
 @Component({
   selector: 'app-product-detail',
   imports: [CurrencyPipe],
@@ -21,6 +22,7 @@ export class ProductDetailComponent implements OnInit {
   product = signal<Product | null>(null);
   loading = signal(true);
   quantity = signal(1);
+  activeTab = signal<'description' | 'specs'>('description');
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -46,9 +48,9 @@ export class ProductDetailComponent implements OnInit {
   }
 
   changeQuantity(delta: number): void {
+    const p = this.product();
+    const max = p?.productType === 'SOFTWARE' ? 99 : (p?.stock ?? 99);
     const next = this.quantity() + delta;
-    if (next >= 1 && next <= (this.product()?.stock ?? 99)) {
-      this.quantity.set(next);
-    }
+    if (next >= 1 && next <= max) this.quantity.set(next);
   }
 }

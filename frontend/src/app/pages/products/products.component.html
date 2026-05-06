@@ -2,38 +2,68 @@
   <div class="container">
     <div class="products-header">
       <h1 class="section-title">Toate produsele</h1>
-
       <div class="search-bar">
-        <input
-          class="input-field"
-          type="text"
-          placeholder="Caută produse..."
-          [(ngModel)]="search"
-          (keyup.enter)="onSearch()"
-        >
+        <input class="input-field" type="text" placeholder="Caută produse..."
+          [(ngModel)]="search" (keyup.enter)="onSearch()">
         <button class="btn-primary search-btn" (click)="onSearch()">Caută</button>
       </div>
     </div>
 
-    <div class="categories">
-      @for (cat of categories; track cat) {
-        <button
-          class="category-chip"
-          [class.active]="selectedCategory === cat"
-          (click)="selectCategory(cat)">
-          {{ cat }}
-        </button>
+    <div class="filter-bar">
+
+      <!-- Tip produs -->
+      <div class="filter-group">
+        <span class="filter-label">Tip</span>
+        <div class="type-filters">
+          @for (t of typeFilters; track t.value) {
+            <button class="type-btn" [class.active]="selectedType === t.value" (click)="selectType(t.value)">
+              {{ t.label }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Categorii grupate -->
+      @if (visibleGroups().length > 0 || visibleOrphans().length > 0) {
+        <div class="category-groups">
+
+          @for (group of visibleGroups(); track group.id) {
+            <div class="category-group">
+              <span class="group-label">{{ group.name }}</span>
+              <div class="chips">
+                @for (cat of group.children!; track cat.id) {
+                  <button class="category-chip" [class.active]="selectedCategory === cat.name"
+                    (click)="selectCategory(cat.name)">
+                    {{ cat.name }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          @if (visibleOrphans().length > 0) {
+            <div class="category-group">
+              <div class="chips">
+                @for (cat of visibleOrphans(); track cat.id) {
+                  <button class="category-chip" [class.active]="selectedCategory === cat.name"
+                    (click)="selectCategory(cat.name)">
+                    {{ cat.name }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+        </div>
       }
+
     </div>
 
     @if (loading()) {
       <app-skeleton [count]="12" />
     } @else if (products().length === 0) {
-      <app-empty-state
-        icon="🔍"
-        title="Niciun produs găsit"
-        message="Încearcă alte cuvinte cheie sau resetează filtrele."
-      />
+      <app-empty-state icon="🔍" title="Niciun produs găsit"
+        message="Încearcă alte cuvinte cheie sau resetează filtrele." />
     } @else {
       <div class="product-grid">
         @for (product of products(); track product.id) {
@@ -44,10 +74,7 @@
       @if (totalPages() > 1) {
         <div class="pagination">
           @for (page of pages; track page) {
-            <button
-              class="page-btn"
-              [class.active]="currentPage() === page"
-              (click)="goToPage(page)">
+            <button class="page-btn" [class.active]="currentPage() === page" (click)="goToPage(page)">
               {{ page + 1 }}
             </button>
           }

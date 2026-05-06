@@ -32,6 +32,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     email: ['', [Validators.required, Validators.email]],
     address: ['', Validators.required],
     city: ['', Validators.required],
+    county: ['', Validators.required],
     zip: ['', Validators.required],
   });
 
@@ -65,7 +66,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.errorMsg.set('');
 
     const customer = this.auth.currentCustomer();
-    const shippingAddress = `${this.form.value.address}, ${this.form.value.city}, ${this.form.value.zip}`;
+    const shippingAddress = `${this.form.value.address}, ${this.form.value.city}, ${this.form.value.county}, ${this.form.value.zip}`;
     const items = this.cart.items().map(i => ({ productId: i.productId, quantity: i.quantity }));
 
     const orderRequest = customer

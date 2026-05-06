@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { Discount, DiscountRequest } from '../models/discount.model';
 import { Product } from '../models/product.model';
 import { PurchaseOrder, Report } from '../models/purchase-order.model';
+import { Category } from '../models/category.model';
 
 export interface AdminStats {
   totalOrders: number;
@@ -13,16 +14,24 @@ export interface AdminStats {
   revenue: number;
 }
 
+export interface SpecRequest {
+  name: string;
+  value: string;
+}
+
 export interface ProductRequest {
   name: string;
   description?: string;
   price: number;
-  stock: number;
+  stock?: number | null;
   category: string;
   imageUrl?: string;
   productCode?: string;
   purchasePrice?: number | null;
+  productType?: string;
   active: boolean;
+  specifications?: SpecRequest[];
+  descriptionImages?: string[];
 }
 
 export interface PurchaseOrderItemRequest {
@@ -102,6 +111,27 @@ export class AdminService {
 
   deletePurchaseOrder(id: number): Observable<void> {
     return this.http.delete<void>(`${this.base}/purchase-orders/${id}`);
+  }
+
+  // Categories
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.base}/admin/categories`);
+  }
+
+  createCategory(name: string): Observable<Category> {
+    return this.http.post<Category>(`${this.base}/admin/categories`, { name });
+  }
+
+  createCategoryWithParent(name: string, parentId: number): Observable<Category> {
+    return this.http.post<Category>(`${this.base}/admin/categories`, { name, parentId });
+  }
+
+  updateCategory(id: number, name: string): Observable<Category> {
+    return this.http.put<Category>(`${this.base}/admin/categories/${id}`, { name });
+  }
+
+  deleteCategory(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.base}/admin/categories/${id}`);
   }
 
   // Discounts

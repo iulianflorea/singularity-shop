@@ -13,6 +13,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
           <a routerLink="/admin/products" routerLinkActive="active">Produse</a>
           <a routerLink="/admin/discounts" routerLinkActive="active">Discounturi</a>
           <a routerLink="/admin/orders" routerLinkActive="active">Comenzi</a>
+          <a routerLink="/admin/categories" routerLinkActive="active">Categorii</a>
           <a routerLink="/admin/stock-orders" routerLinkActive="active">Comenzi stoc</a>
           <a routerLink="/admin/reports" routerLinkActive="active">Rapoarte</a>
         </nav>
