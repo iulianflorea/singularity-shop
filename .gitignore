@@ -12,7 +12,7 @@ hs_err_pid*
 replay_pid*
 target/
 .mvn/wrapper/maven-wrapper.jar
-backend/uploads
+#backend/uploads
 
 # IntelliJ IDEA
 .idea/
