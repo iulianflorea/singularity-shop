@@ -11,6 +11,6 @@ app.use('/api', createProxyMiddleware({ target: BACKEND, changeOrigin: true }));
 app.use('/uploads', createProxyMiddleware({ target: BACKEND, changeOrigin: true }));
 
 app.use(express.static(STATIC_DIR));
-app.get('*', (req, res) => res.sendFile(path.join(STATIC_DIR, 'index.html')));
+app.get('/{*splat}', (req, res) => res.sendFile(path.join(STATIC_DIR, 'index.html')));
 
 app.listen(PORT, () => console.log(`Shop frontend running on port ${PORT}, proxying API to ${BACKEND}`));
