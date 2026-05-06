@@ -3,7 +3,6 @@ package com.singularity.shop.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.*;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
 public class CorsConfig {
 
     @Bean
-    public CorsFilter corsFilter() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
                 "https://shop.singularity-cloud.com",
@@ -22,7 +21,7 @@ public class CorsConfig {
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", config);
-        return new CorsFilter(source);
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 }
