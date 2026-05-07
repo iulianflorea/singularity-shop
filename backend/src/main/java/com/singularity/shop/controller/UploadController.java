@@ -17,7 +17,7 @@ public class UploadController {
     @Value("${upload.dir:uploads}")
     private String uploadDir;
 
-    @Value("${upload.base-url:http://localhost:8091}")
+    @Value("${upload.base-url:https://shop-back.singularity-cloud.com}")
     private String baseUrl;
 
     @PostMapping("/image")
