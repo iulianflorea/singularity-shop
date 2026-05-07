@@ -30,12 +30,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             boolean valid = jwtUtil.isValid(token);
             log.debug("JWT filter [{} {}] token present={} valid={}", request.getMethod(), request.getRequestURI(), true, valid);
             if (valid) {
-                String email = jwtUtil.extractEmail(token);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-                log.debug("JWT auth set for email={} authorities={}", email, userDetails.getAuthorities());
-                UsernamePasswordAuthenticationToken auth =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                try {
+                    String email = jwtUtil.extractEmail(token);
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                    log.debug("JWT auth set for email={} authorities={}", email, userDetails.getAuthorities());
+                    UsernamePasswordAuthenticationToken auth =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                } catch (Exception e) {
+                    log.error("Failed to set authentication: {}", e.getMessage());
+                }
             }
         } else {
             log.debug("JWT filter [{} {}] no token", request.getMethod(), request.getRequestURI());
