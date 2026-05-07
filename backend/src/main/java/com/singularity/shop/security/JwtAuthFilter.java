@@ -26,23 +26,18 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
         String token = extractToken(request);
-        if (token != null) {
-            boolean valid = jwtUtil.isValid(token);
-            log.debug("JWT filter [{} {}] token present={} valid={}", request.getMethod(), request.getRequestURI(), true, valid);
-            if (valid) {
+        if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (jwtUtil.isValid(token)) {
                 try {
                     String email = jwtUtil.extractEmail(token);
                     UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-                    log.debug("JWT auth set for email={} authorities={}", email, userDetails.getAuthorities());
                     UsernamePasswordAuthenticationToken auth =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 } catch (Exception e) {
-                    log.error("Failed to set authentication: {}", e.getMessage());
+                    log.warn("Could not set authentication: {}", e.getMessage());
                 }
             }
-        } else {
-            log.debug("JWT filter [{} {}] no token", request.getMethod(), request.getRequestURI());
         }
         chain.doFilter(request, response);
     }
