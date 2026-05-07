@@ -39,4 +39,5 @@ upload:
 
 logging:
   level:
-    com.singularity.shop: INFO
+    com.singularity.shop: DEBUG
+    org.springframework.security: DEBUG
