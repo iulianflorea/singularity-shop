@@ -19,7 +19,7 @@ public class DataInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        if (!customerRepository.existsByEmail("admin@singularity-cloud.com")) {
+        if (customerRepository.findByEmail("admin@singularity-cloud.com").isEmpty()) {
             customerRepository.save(Customer.builder()
                     .email("admin@singularity-cloud.com")
                     .name("Admin")
