@@ -3,6 +3,7 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
   private toast = inject(ToastService);
+  ts = inject(TranslationService);
 
   loading = signal(false);
 
@@ -29,11 +31,11 @@ export class LoginComponent {
 
     this.auth.login(this.form.value as any).subscribe({
       next: () => {
-        this.toast.success('Bun venit!');
+        this.toast.success(this.ts.t('auth.welcomeBack'));
         this.router.navigate(['/home']);
       },
       error: (err) => {
-        this.toast.error(err.error?.message || 'Autentificare eșuată');
+        this.toast.error(err.error?.message || this.ts.t('auth.loginFailed'));
         this.loading.set(false);
       }
     });

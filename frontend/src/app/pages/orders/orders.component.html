@@ -1,5 +1,5 @@
 <div class="container orders-page">
-  <h1 class="section-title">Comenzile mele</h1>
+  <h1 class="section-title">{{ ts.t('orders.title') }}</h1>
 
   @if (loading()) {
     <div style="display:flex;flex-direction:column;gap:16px">
@@ -10,9 +10,9 @@
   } @else if (orders().length === 0) {
     <app-empty-state
       icon="📦"
-      title="Nicio comandă"
-      message="Nu ai plasate nicio comandă. Descoperă produsele noastre."
-      actionLabel="Explorează produsele"
+      [title]="ts.t('orders.emptyTitle')"
+      [message]="ts.t('orders.emptyMsg')"
+      [actionLabel]="ts.t('orders.exploreProducts')"
       actionLink="/products"
     />
   } @else {
@@ -20,12 +20,12 @@
       @for (order of orders(); track order.id) {
         <a class="order-card card" [routerLink]="['/order-confirmation', order.id]">
           <div class="order-header">
-            <span class="order-id">Comandă #{{ order.id }}</span>
+            <span class="order-id">{{ ts.t('orders.orderPrefix') }}{{ order.id }}</span>
             <span class="order-status" [class]="'status-' + order.status.toLowerCase()">{{ order.status }}</span>
           </div>
           <div class="order-meta">
-            <span>{{ order.createdAt | date:'dd MMM yyyy':'':'ro' }}</span>
-            <span>{{ order.items.length }} produs{{ order.items.length !== 1 ? 'e' : '' }}</span>
+            <span>{{ order.createdAt | date:'dd MMM yyyy':'':ts.lang() }}</span>
+            <span>{{ order.items.length }} {{ order.items.length !== 1 ? ts.t('orders.productPlural') : ts.t('orders.productSingular') }}</span>
             <strong>{{ order.totalAmount | currency:'RON':'symbol':'1.2-2':'ro' }}</strong>
           </div>
         </a>

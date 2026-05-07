@@ -2,7 +2,7 @@
   <div class="product-card__image">
     <img [src]="product.imageUrl || 'assets/placeholder.jpg'" [alt]="product.name" loading="lazy">
     <button class="product-card__add-btn btn-primary" (click)="addToCart($event)">
-      Adaugă în coș
+      {{ ts.t('product.addToCart') }}
     </button>
   </div>
   <div class="product-card__info">

@@ -4,6 +4,8 @@
   margin: 0 auto;
 
   .section-title { margin-bottom: 40px; }
+
+  @media (max-width: 768px) { padding: 24px 16px 40px; }
 }
 
 .orders-list {
@@ -53,6 +55,9 @@
   gap: 24px;
   font-size: 14px;
   color: var(--color-text-secondary);
+  flex-wrap: wrap;
 
   strong { color: var(--color-text-primary); }
+
+  @media (max-width: 480px) { gap: 12px; font-size: 13px; }
 }

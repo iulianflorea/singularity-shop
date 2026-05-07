@@ -4,6 +4,7 @@ import { CurrencyPipe } from '@angular/common';
 import { Product } from '../../models/product.model';
 import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-product-card',
@@ -16,6 +17,7 @@ export class ProductCardComponent {
 
   cart = inject(CartService);
   toast = inject(ToastService);
+  ts = inject(TranslationService);
 
   addToCart(event: Event): void {
     event.preventDefault();
@@ -26,6 +28,6 @@ export class ProductCardComponent {
       imageUrl: this.product.imageUrl,
       unitPrice: this.product.price
     });
-    this.toast.success(`"${this.product.name}" adăugat în coș`);
+    this.toast.success(`"${this.product.name}" ${this.ts.t('product.addedToCart')}`);
   }
 }

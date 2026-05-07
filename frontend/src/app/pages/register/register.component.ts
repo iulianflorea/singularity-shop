@@ -3,6 +3,7 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-register',
@@ -15,6 +16,7 @@ export class RegisterComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
   private toast = inject(ToastService);
+  ts = inject(TranslationService);
 
   loading = signal(false);
 
@@ -31,11 +33,11 @@ export class RegisterComponent {
 
     this.auth.register(this.form.value as any).subscribe({
       next: () => {
-        this.toast.success('Cont creat cu succes!');
+        this.toast.success(this.ts.t('auth.accountCreated'));
         this.router.navigate(['/home']);
       },
       error: (err) => {
-        this.toast.error(err.error?.message || 'Înregistrare eșuată');
+        this.toast.error(err.error?.message || this.ts.t('auth.registerFailed'));
         this.loading.set(false);
       }
     });

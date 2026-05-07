@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { StripeService } from '../../services/stripe.service';
 import { ToastService } from '../../services/toast.service';
 import { CurrencyPipe } from '@angular/common';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-checkout',
@@ -22,6 +23,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   private auth = inject(AuthService);
   private stripeService = inject(StripeService);
   private toast = inject(ToastService);
+  ts = inject(TranslationService);
 
   processing = signal(false);
   errorMsg = signal('');
@@ -78,7 +80,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         try {
           const result = await this.stripeService.confirmPayment(orderResp.clientSecret);
           if (result.error) {
-            this.errorMsg.set(result.error.message || 'Plata a eșuat');
+            this.errorMsg.set(result.error.message || this.ts.t('checkout.errorPayment'));
             this.processing.set(false);
             return;
           }
@@ -89,17 +91,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
               this.router.navigate(['/order-confirmation', orderResp.orderId]);
             },
             error: () => {
-              this.toast.error('Eroare la confirmarea comenzii');
+              this.toast.error(this.ts.t('checkout.errorConfirm'));
               this.processing.set(false);
             }
           });
         } catch (e) {
-          this.errorMsg.set('Eroare neașteptată la plată');
+          this.errorMsg.set(this.ts.t('checkout.errorUnexpected'));
           this.processing.set(false);
         }
       },
       error: () => {
-        this.errorMsg.set('Eroare la crearea comenzii');
+        this.errorMsg.set(this.ts.t('checkout.errorCreate'));
         this.processing.set(false);
       }
     });

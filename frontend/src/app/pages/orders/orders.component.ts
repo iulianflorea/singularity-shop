@@ -5,6 +5,7 @@ import { OrderService } from '../../services/order.service';
 import { AuthService } from '../../services/auth.service';
 import { Order } from '../../models/order.model';
 import { EmptyStateComponent } from '../../components/empty-state/empty-state.component';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-orders',
@@ -15,6 +16,7 @@ import { EmptyStateComponent } from '../../components/empty-state/empty-state.co
 export class OrdersComponent implements OnInit {
   private orderService = inject(OrderService);
   private auth = inject(AuthService);
+  ts = inject(TranslationService);
 
   orders = signal<Order[]>([]);
   loading = signal(true);

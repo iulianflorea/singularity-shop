@@ -7,35 +7,35 @@
   } @else if (order(); as o) {
     <div class="confirmation-card">
       <div class="success-icon">✓</div>
-      <h1>Comandă plasată cu succes!</h1>
-      <p class="confirmation-sub">Îți mulțumim pentru comandă. Vei primi un email de confirmare.</p>
+      <h1>{{ ts.t('confirmation.title') }}</h1>
+      <p class="confirmation-sub">{{ ts.t('confirmation.subtitle') }}</p>
 
       <div class="order-details">
         <div class="detail-row">
-          <span>Număr comandă</span>
+          <span>{{ ts.t('confirmation.orderNumber') }}</span>
           <strong>#{{ o.id }}</strong>
         </div>
         <div class="detail-row">
-          <span>Status</span>
+          <span>{{ ts.t('confirmation.status') }}</span>
           <span class="status-badge">{{ o.status }}</span>
         </div>
         <div class="detail-row">
-          <span>Total</span>
+          <span>{{ ts.t('confirmation.total') }}</span>
           <strong>{{ o.totalAmount | currency:'RON':'symbol':'1.2-2':'ro' }}</strong>
         </div>
         <div class="detail-row">
-          <span>Data</span>
-          <span>{{ o.createdAt | date:'dd MMMM yyyy, HH:mm':'':'ro' }}</span>
+          <span>{{ ts.t('confirmation.date') }}</span>
+          <span>{{ o.createdAt | date:'dd MMMM yyyy, HH:mm':'':ts.lang() }}</span>
         </div>
         <div class="detail-row">
-          <span>Adresă livrare</span>
+          <span>{{ ts.t('confirmation.shippingAddress') }}</span>
           <span>{{ o.shippingAddress }}</span>
         </div>
       </div>
 
       <div class="confirmation-actions">
-        <a routerLink="/orders" class="btn-primary">Comenzile mele</a>
-        <a routerLink="/products" class="btn-secondary">Continuă cumpărăturile</a>
+        <a routerLink="/orders" class="btn-primary">{{ ts.t('confirmation.myOrders') }}</a>
+        <a routerLink="/products" class="btn-secondary">{{ ts.t('confirmation.continueShopping') }}</a>
       </div>
     </div>
   }

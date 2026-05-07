@@ -7,6 +7,12 @@
   flex-direction: column;
   gap: 12px;
   pointer-events: none;
+
+  @media (max-width: 768px) {
+    bottom: calc(var(--mobile-nav-height) + 12px);
+    left: 12px;
+    right: 12px;
+  }
 }
 
 .toast {
@@ -21,6 +27,8 @@
   font-weight: 500;
   min-width: 280px;
   max-width: 400px;
+
+  @media (max-width: 768px) { min-width: unset; width: 100%; font-size: 13px; }
   box-shadow: var(--shadow-md);
   pointer-events: all;
   animation: slideIn 0.3s ease;

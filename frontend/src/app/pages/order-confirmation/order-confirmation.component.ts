@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { OrderService } from '../../services/order.service';
 import { Order } from '../../models/order.model';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-order-confirmation',
@@ -14,6 +15,7 @@ import { Order } from '../../models/order.model';
 export class OrderConfirmationComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private orderService = inject(OrderService);
+  ts = inject(TranslationService);
 
   order = signal<Order | null>(null);
   loading = signal(true);

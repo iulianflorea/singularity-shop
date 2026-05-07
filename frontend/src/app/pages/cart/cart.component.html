@@ -1,12 +1,12 @@
 <div class="container cart-page">
-  <h1 class="section-title">Coșul tău</h1>
+  <h1 class="section-title">{{ ts.t('cart.title') }}</h1>
 
   @if (cart.items().length === 0) {
     <app-empty-state
       icon="🛒"
-      title="Coșul este gol"
-      message="Adaugă produse pentru a continua."
-      actionLabel="Explorează produsele"
+      [title]="ts.t('cart.emptyTitle')"
+      [message]="ts.t('cart.emptyMsg')"
+      [actionLabel]="ts.t('cart.exploreProducts')"
       actionLink="/products"
     />
   } @else {
@@ -27,7 +27,7 @@
             <div class="item-total">
               {{ (item.unitPrice * item.quantity) | currency:'RON':'symbol':'1.2-2':'ro' }}
             </div>
-            <button class="remove-btn" (click)="remove(item.productId)" title="Elimină">
+            <button class="remove-btn" (click)="remove(item.productId)" [title]="ts.t('cart.remove')">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
               </svg>
@@ -37,7 +37,7 @@
       </div>
 
       <div class="cart-summary card">
-        <h3>Sumar comandă</h3>
+        <h3>{{ ts.t('cart.orderSummary') }}</h3>
 
         @if (loading()) {
           <div class="summary-loading">
@@ -48,22 +48,22 @@
         } @else if (summary(); as s) {
           <div class="summary-rows">
             <div class="summary-row">
-              <span>Subtotal</span>
+              <span>{{ ts.t('cart.subtotal') }}</span>
               <span>{{ s.subtotal | currency:'RON':'symbol':'1.2-2':'ro' }}</span>
             </div>
             <div class="summary-row">
-              <span>TVA inclus ({{ s.tvaRate }}%)</span>
+              <span>{{ ts.t('cart.vatIncluded') }} ({{ s.tvaRate }}%)</span>
               <span>{{ s.tax | currency:'RON':'symbol':'1.2-2':'ro' }}</span>
             </div>
             <div class="summary-row total">
-              <span>Total</span>
+              <span>{{ ts.t('cart.total') }}</span>
               <span>{{ s.total | currency:'RON':'symbol':'1.2-2':'ro' }}</span>
             </div>
           </div>
         }
 
-        <a routerLink="/checkout" class="btn-primary checkout-btn">Finalizează comanda</a>
-        <a routerLink="/products" class="btn-secondary continue-btn">Continuă cumpărăturile</a>
+        <a routerLink="/checkout" class="btn-primary checkout-btn">{{ ts.t('cart.checkout') }}</a>
+        <a routerLink="/products" class="btn-secondary continue-btn">{{ ts.t('cart.continueShopping') }}</a>
       </div>
     </div>
   }

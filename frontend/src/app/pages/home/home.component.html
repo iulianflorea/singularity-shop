@@ -1,9 +1,9 @@
 <section class="hero">
   <div class="container hero-inner">
     <div class="hero-text">
-      <h1 class="hero-headline">Calitate<br>fără compromis.</h1>
-      <p class="hero-subtitle">Descoperă produse premium selectate cu grijă pentru tine.</p>
-      <a routerLink="/products" class="btn-primary hero-cta">Explorează produsele</a>
+      <h1 class="hero-headline" style="white-space:pre-line">{{ ts.t('hero.headline') }}</h1>
+      <p class="hero-subtitle">{{ ts.t('hero.subtitle') }}</p>
+      <a routerLink="/products" class="btn-primary hero-cta">{{ ts.t('hero.cta') }}</a>
     </div>
     <div class="hero-visual">
       <div class="hero-image-wrap">
@@ -17,8 +17,8 @@
 <section class="featured">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">Produse recomandate</h2>
-      <a routerLink="/products" class="section-link">Vezi toate →</a>
+      <h2 class="section-title">{{ ts.t('featured.title') }}</h2>
+      <a routerLink="/products" class="section-link">{{ ts.t('featured.viewAll') }}</a>
     </div>
 
     @if (loading()) {

@@ -1,21 +1,20 @@
 <div class="products-page">
   <div class="container">
     <div class="products-header">
-      <h1 class="section-title">Toate produsele</h1>
+      <h1 class="section-title">{{ ts.t('products.title') }}</h1>
       <div class="search-bar">
-        <input class="input-field" type="text" placeholder="Caută produse..."
+        <input class="input-field" type="text" [placeholder]="ts.t('products.searchPlaceholder')"
           [(ngModel)]="search" (keyup.enter)="onSearch()">
-        <button class="btn-primary search-btn" (click)="onSearch()">Caută</button>
+        <button class="btn-primary search-btn" (click)="onSearch()">{{ ts.t('products.searchBtn') }}</button>
       </div>
     </div>
 
     <div class="filter-bar">
 
-      <!-- Tip produs -->
       <div class="filter-group">
-        <span class="filter-label">Tip</span>
+        <span class="filter-label">{{ ts.t('products.tipLabel') }}</span>
         <div class="type-filters">
-          @for (t of typeFilters; track t.value) {
+          @for (t of typeFilters(); track t.value) {
             <button class="type-btn" [class.active]="selectedType === t.value" (click)="selectType(t.value)">
               {{ t.label }}
             </button>
@@ -23,7 +22,6 @@
         </div>
       </div>
 
-      <!-- Categorii grupate -->
       @if (visibleGroups().length > 0 || visibleOrphans().length > 0) {
         <div class="category-groups">
 
@@ -62,8 +60,8 @@
     @if (loading()) {
       <app-skeleton [count]="12" />
     } @else if (products().length === 0) {
-      <app-empty-state icon="🔍" title="Niciun produs găsit"
-        message="Încearcă alte cuvinte cheie sau resetează filtrele." />
+      <app-empty-state icon="🔍" [title]="ts.t('products.emptyTitle')"
+        [message]="ts.t('products.emptyMsg')" />
     } @else {
       <div class="product-grid">
         @for (product of products(); track product.id) {

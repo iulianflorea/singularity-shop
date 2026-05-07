@@ -4,6 +4,8 @@
   margin: 0 auto;
 
   .section-title { margin-bottom: 40px; }
+
+  @media (max-width: 768px) { padding: 24px 16px 40px; }
 }
 
 .checkout-layout {

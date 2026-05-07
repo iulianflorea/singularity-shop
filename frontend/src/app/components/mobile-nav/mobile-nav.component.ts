@@ -5,12 +5,12 @@ import { AuthService } from '../../services/auth.service';
 import { TranslationService } from '../../services/translation.service';
 
 @Component({
-  selector: 'app-navbar',
+  selector: 'app-mobile-nav',
   imports: [RouterLink, RouterLinkActive],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  templateUrl: './mobile-nav.component.html',
+  styleUrl: './mobile-nav.component.scss'
 })
-export class NavbarComponent {
+export class MobileNavComponent {
   cart = inject(CartService);
   auth = inject(AuthService);
   ts = inject(TranslationService);

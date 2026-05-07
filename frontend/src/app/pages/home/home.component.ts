@@ -4,6 +4,7 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 })
 export class HomeComponent implements OnInit {
   private productService = inject(ProductService);
+  ts = inject(TranslationService);
 
   featuredProducts = signal<Product[]>([]);
   loading = signal(true);

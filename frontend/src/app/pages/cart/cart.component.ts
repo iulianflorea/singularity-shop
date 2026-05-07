@@ -4,6 +4,7 @@ import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../services/cart.service';
 import { CartCalculateResponse } from '../../models/cart.model';
 import { EmptyStateComponent } from '../../components/empty-state/empty-state.component';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-cart',
@@ -13,6 +14,7 @@ import { EmptyStateComponent } from '../../components/empty-state/empty-state.co
 })
 export class CartComponent implements OnInit {
   cart = inject(CartService);
+  ts = inject(TranslationService);
 
   summary = signal<CartCalculateResponse | null>(null);
   loading = signal(false);

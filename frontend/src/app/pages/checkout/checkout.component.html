@@ -1,58 +1,58 @@
 <div class="container checkout-page">
-  <h1 class="section-title">Finalizare comandă</h1>
+  <h1 class="section-title">{{ ts.t('checkout.title') }}</h1>
 
   <div class="checkout-layout">
     <form class="checkout-form" [formGroup]="form" (ngSubmit)="submit()">
       <section class="form-section">
-        <h2 class="form-section-title">Detalii livrare</h2>
+        <h2 class="form-section-title">{{ ts.t('checkout.shipping') }}</h2>
 
         <div class="form-grid">
           <div class="form-group">
-            <label>Nume complet</label>
+            <label>{{ ts.t('checkout.fullName') }}</label>
             <input class="input-field" formControlName="name" placeholder="Ion Popescu">
             @if (field('name')?.invalid && field('name')?.touched) {
-              <span class="form-error">Câmp obligatoriu</span>
+              <span class="form-error">{{ ts.t('checkout.requiredField') }}</span>
             }
           </div>
 
           <div class="form-group">
-            <label>Email</label>
+            <label>{{ ts.t('checkout.email') }}</label>
             <input class="input-field" type="email" formControlName="email" placeholder="ion@exemplu.ro">
             @if (field('email')?.invalid && field('email')?.touched) {
-              <span class="form-error">Email invalid</span>
+              <span class="form-error">{{ ts.t('checkout.invalidEmail') }}</span>
             }
           </div>
 
           <div class="form-group full">
-            <label>Adresă</label>
+            <label>{{ ts.t('checkout.address') }}</label>
             <input class="input-field" formControlName="address" placeholder="Str. Exemplu nr. 1">
             @if (field('address')?.invalid && field('address')?.touched) {
-              <span class="form-error">Câmp obligatoriu</span>
+              <span class="form-error">{{ ts.t('checkout.requiredField') }}</span>
             }
           </div>
 
           <div class="form-group">
-            <label>Oraș</label>
+            <label>{{ ts.t('checkout.city') }}</label>
             <input class="input-field" formControlName="city" placeholder="București">
           </div>
 
           <div class="form-group">
-            <label>Județ</label>
+            <label>{{ ts.t('checkout.county') }}</label>
             <input class="input-field" formControlName="county" placeholder="Ilfov">
             @if (field('county')?.invalid && field('county')?.touched) {
-              <span class="form-error">Câmp obligatoriu</span>
+              <span class="form-error">{{ ts.t('checkout.requiredField') }}</span>
             }
           </div>
 
           <div class="form-group">
-            <label>Cod poștal</label>
+            <label>{{ ts.t('checkout.zip') }}</label>
             <input class="input-field" formControlName="zip" placeholder="010101">
           </div>
         </div>
       </section>
 
       <section class="form-section">
-        <h2 class="form-section-title">Date de plată</h2>
+        <h2 class="form-section-title">{{ ts.t('checkout.payment') }}</h2>
         <div id="card-element" class="stripe-card-wrapper"></div>
 
         @if (errorMsg()) {
@@ -62,15 +62,15 @@
 
       <button type="submit" class="btn-primary submit-btn" [disabled]="processing()">
         @if (processing()) {
-          <span class="spinner"></span> Se procesează...
+          <span class="spinner"></span> {{ ts.t('checkout.processing') }}
         } @else {
-          Plătește {{ cartTotal() | currency:'RON':'symbol':'1.2-2':'ro' }}
+          {{ ts.t('checkout.pay') }} {{ cartTotal() | currency:'RON':'symbol':'1.2-2':'ro' }}
         }
       </button>
     </form>
 
     <div class="order-summary card">
-      <h3>Produse comandate</h3>
+      <h3>{{ ts.t('checkout.orderedProducts') }}</h3>
       <div class="summary-items">
         @for (item of cart.items(); track item.productId) {
           <div class="summary-item">

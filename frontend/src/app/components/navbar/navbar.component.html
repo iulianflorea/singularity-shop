@@ -3,24 +3,30 @@
     <a routerLink="/home" class="navbar-logo">Singularity</a>
 
     <ul class="navbar-links">
-      <li><a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Acasă</a></li>
-      <li><a routerLink="/products" routerLinkActive="active">Produse</a></li>
+      <li><a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">{{ ts.t('nav.home') }}</a></li>
+      <li><a routerLink="/products" routerLinkActive="active">{{ ts.t('nav.products') }}</a></li>
       @if (auth.isLoggedIn()) {
-        <li><a routerLink="/orders" routerLinkActive="active">Comenzile mele</a></li>
+        <li><a routerLink="/orders" routerLinkActive="active">{{ ts.t('nav.myOrders') }}</a></li>
       }
       @if (auth.isAdmin()) {
-        <li><a routerLink="/admin" routerLinkActive="active">Admin</a></li>
+        <li><a routerLink="/admin" routerLinkActive="active">{{ ts.t('nav.admin') }}</a></li>
       }
     </ul>
 
     <div class="navbar-actions">
+      <div class="lang-toggle">
+        <button class="lang-btn" [class.active]="ts.lang() === 'ro'" (click)="ts.setLang('ro')">RO</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" [class.active]="ts.lang() === 'en'" (click)="ts.setLang('en')">EN</button>
+      </div>
+
       @if (auth.isLoggedIn()) {
-        <button class="btn-secondary btn-sm" (click)="auth.logout()">Ieșire</button>
+        <button class="btn-secondary btn-sm" (click)="auth.logout()">{{ ts.t('nav.logout') }}</button>
       } @else {
-        <a routerLink="/login" class="btn-secondary btn-sm">Autentificare</a>
+        <a routerLink="/login" class="btn-secondary btn-sm">{{ ts.t('nav.login') }}</a>
       }
 
-      <a routerLink="/cart" class="cart-btn" aria-label="Coș">
+      <a routerLink="/cart" class="cart-btn" [attr.aria-label]="ts.t('footer.cart')">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
           <line x1="3" y1="6" x2="21" y2="6"/>

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
@@ -6,6 +6,7 @@ import { Category } from '../../models/category.model';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component';
 import { EmptyStateComponent } from '../../components/empty-state/empty-state.component';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-products',
@@ -15,6 +16,7 @@ import { EmptyStateComponent } from '../../components/empty-state/empty-state.co
 })
 export class ProductsComponent implements OnInit {
   private productService = inject(ProductService);
+  ts = inject(TranslationService);
 
   products = signal<Product[]>([]);
   loading = signal(true);
@@ -42,11 +44,11 @@ export class ProductsComponent implements OnInit {
       .filter(g => !g.parentId && !(g.children?.length))  // grupuri fără copii = tratate ca leaf
       .filter(g => this.availableCategoryNames().includes(g.name));
 
-  readonly typeFilters = [
-    { label: 'Toate', value: '' },
-    { label: 'Software', value: 'SOFTWARE' },
-    { label: 'Echipamente IT', value: 'PHYSICAL' },
-  ];
+  readonly typeFilters = computed(() => [
+    { label: this.ts.t('products.typeAll'), value: '' },
+    { label: this.ts.t('products.typeSoftware'), value: 'SOFTWARE' },
+    { label: this.ts.t('products.typePhysical'), value: 'PHYSICAL' },
+  ]);
 
   ngOnInit(): void {
     this.productService.getCategories().subscribe(g => this.groups.set(g));

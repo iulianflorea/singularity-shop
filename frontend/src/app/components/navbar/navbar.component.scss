@@ -58,6 +58,10 @@
 .btn-sm {
   padding: 8px 16px;
   font-size: 13px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 .cart-btn {
@@ -69,6 +73,35 @@
   transition: opacity var(--transition);
 
   &:hover { opacity: 0.7; }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lang-sep {
+  color: var(--color-border);
+  font-size: 13px;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  padding: 4px 2px;
+  transition: color var(--transition);
+
+  &:hover { color: var(--color-text-primary); }
+  &.active { color: var(--color-primary); font-weight: 700; }
 }
 
 .cart-badge {

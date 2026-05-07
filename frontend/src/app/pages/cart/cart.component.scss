@@ -4,6 +4,8 @@
   margin: 0 auto;
 
   .section-title { margin-bottom: 40px; }
+
+  @media (max-width: 768px) { padding: 24px 16px 32px; }
 }
 
 .cart-layout {
@@ -33,8 +35,16 @@
   border-radius: var(--border-radius);
 
   @media (max-width: 600px) {
-    grid-template-columns: 64px 1fr;
+    grid-template-columns: 72px 1fr auto;
     grid-template-rows: auto auto;
+    gap: 10px 12px;
+    padding: 14px;
+
+    .item-img { grid-row: 1 / 3; width: 72px; height: 72px; }
+    .item-details { grid-column: 2; grid-row: 1; }
+    .item-qty { grid-column: 2; grid-row: 2; }
+    .item-total { grid-column: 3; grid-row: 2; font-size: 14px; min-width: unset; }
+    .remove-btn { grid-column: 3; grid-row: 1; justify-self: end; }
   }
 }
 

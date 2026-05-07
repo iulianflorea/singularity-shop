@@ -2,23 +2,23 @@
   <div class="container footer-inner">
     <div class="footer-brand">
       <span class="footer-logo">Singularity</span>
-      <p class="footer-tagline">Calitate premium, livrată rapid.</p>
+      <p class="footer-tagline">{{ ts.t('footer.tagline') }}</p>
     </div>
     <div class="footer-links">
       <div class="footer-col">
-        <h4>Shop</h4>
-        <a routerLink="/products">Toate produsele</a>
-        <a routerLink="/cart">Coș</a>
+        <h4>{{ ts.t('footer.shop') }}</h4>
+        <a routerLink="/products">{{ ts.t('footer.allProducts') }}</a>
+        <a routerLink="/cart">{{ ts.t('footer.cart') }}</a>
       </div>
       <div class="footer-col">
-        <h4>Cont</h4>
-        <a routerLink="/orders">Comenzile mele</a>
-        <a routerLink="/login">Autentificare</a>
-        <a routerLink="/register">Înregistrare</a>
+        <h4>{{ ts.t('footer.account') }}</h4>
+        <a routerLink="/orders">{{ ts.t('footer.myOrders') }}</a>
+        <a routerLink="/login">{{ ts.t('footer.login') }}</a>
+        <a routerLink="/register">{{ ts.t('footer.register') }}</a>
       </div>
     </div>
   </div>
   <div class="footer-bottom container">
-    <p>© {{ year }} Singularity. Toate drepturile rezervate.</p>
+    <p>© {{ year }} Singularity. {{ ts.t('footer.rights') }}</p>
   </div>
 </footer>
